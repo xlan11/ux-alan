@@ -1,0 +1,20 @@
+backend:
+  name: github
+  repo: xlan11/ux-alan
+  branch: main
+  base_url: https://api.netlify.com
+  auth_endpoint: auth
+media_folder: public/uploads
+public_folder: /uploads
+collections:
+  - name: projects
+    label: Case studies
+    folder: src/content/projects
+    create: true
+    slug: '{{slug}}'
+    fields:
+      - { label: Title, name: title, widget: string }
+      - { label: Summary, name: summary, widget: text }
+      - { label: Cover image, name: coverImage, widget: image, required: false }
+      - { label: Cover image alt text, name: coverImageAlt, widget: string, required: false }
+      - { label: Project details, name: body, widget: markdown }

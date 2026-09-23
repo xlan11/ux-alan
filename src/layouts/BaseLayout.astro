@@ -1,0 +1,66 @@
+---
+const { title = 'Alan Kelly — UX Designer', description = 'The UX portfolio of Alan Kelly.' } = Astro.props;
+---
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width" />
+    <meta name="description" content={description} />
+    <link rel="icon" href={`${import.meta.env.BASE_URL}favicon.svg`} />
+    <title>{title}</title>
+  </head>
+  <body>
+    <a class="skip-link" href="#main">Skip to content</a>
+    <header class="site-header">
+      <a class="wordmark" href={`${import.meta.env.BASE_URL}`}>AK<span>.</span></a>
+      <nav aria-label="Primary navigation">
+        <a href={`${import.meta.env.BASE_URL}#work`}>Work</a>
+        <a href={`${import.meta.env.BASE_URL}#about`}>About</a>
+        <a href={`${import.meta.env.BASE_URL}#contact`}>Contact</a>
+        <button class="theme-toggle" type="button" aria-label="Switch to dark mode">◐</button>
+      </nav>
+    </header>
+    <main id="main"><slot /></main>
+    <footer class="site-footer">
+      <p>© {new Date().getFullYear()} Alan Kelly</p>
+      <a href="https://www.linkedin.com/in/alan-kelly-16280a1b/" target="_blank" rel="noreferrer">LinkedIn ↗</a>
+    </footer>
+    <script>
+      const button = document.querySelector('.theme-toggle');
+      const saved = localStorage.getItem('theme');
+      if (saved) document.documentElement.dataset.theme = saved;
+      const update = () => button.setAttribute('aria-label', document.documentElement.dataset.theme === 'dark' ? 'Switch to light mode' : 'Switch to dark mode');
+      update();
+      button.addEventListener('click', () => {
+        const next = document.documentElement.dataset.theme === 'dark' ? 'light' : 'dark';
+        document.documentElement.dataset.theme = next;
+        localStorage.setItem('theme', next);
+        update();
+      });
+    </script>
+  </body>
+</html>
+<style is:global>
+  @import url('https://fonts.googleapis.com/css2?family=Montserrat:wght@400;500;600;700&display=swap');
+  :root { --bg:#f7f7f5; --surface:#fff; --text:#1f2937; --muted:#4b5563; --line:#d1d5db; --accent:#0f766e; --link:#075985; --focus:#2563eb; }
+  :root[data-theme='dark'] { --bg:#111827; --surface:#1f2937; --text:#f9fafb; --muted:#d1d5db; --line:#4b5563; --accent:#5eead4; --link:#7dd3fc; --focus:#93c5fd; }
+  * { box-sizing:border-box; }
+  html { scroll-behavior:smooth; }
+  body { margin:0; background:var(--bg); color:var(--text); font-family:'Montserrat',sans-serif; line-height:1.65; }
+  a { color:var(--link); }
+  a:focus-visible, button:focus-visible { outline:3px solid var(--focus); outline-offset:4px; }
+  .skip-link { position:absolute; left:-9999px; top:1rem; background:var(--text); color:var(--bg); padding:.6rem 1rem; z-index:5; }
+  .skip-link:focus { left:1rem; }
+  .site-header, .site-footer { max-width:1180px; margin:auto; padding:1.5rem 2rem; display:flex; justify-content:space-between; align-items:center; }
+  .site-header { border-bottom:1px solid var(--line); }
+  .wordmark { color:var(--text); text-decoration:none; font-weight:700; font-size:1.35rem; letter-spacing:-.08em; }
+  .wordmark span { color:var(--accent); }
+  nav { display:flex; gap:1.4rem; align-items:center; }
+  nav a { color:var(--text); text-decoration:none; font-size:.82rem; font-weight:600; }
+  .theme-toggle { border:1px solid var(--line); border-radius:999px; background:var(--surface); color:var(--text); width:2.3rem; height:2.3rem; cursor:pointer; }
+  .site-footer { margin-top:7rem; border-top:1px solid var(--line); font-size:.78rem; color:var(--muted); }
+  .site-footer a { font-weight:600; }
+  main { max-width:1180px; margin:auto; padding:0 2rem; }
+  @media(max-width:650px) { .site-header,.site-footer,main { padding-left:1.25rem; padding-right:1.25rem; } nav { gap:.75rem; } nav a { font-size:.74rem; } }
+</style>

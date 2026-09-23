@@ -1,0 +1,18 @@
+---
+import BaseLayout from '../../layouts/BaseLayout.astro';
+import { projects } from '../../data/projects.js';
+export function getStaticPaths() { return projects.map((project) => ({ params: { slug: project.slug }, props: { project } })); }
+const { project } = Astro.props;
+---
+<BaseLayout title={`${project.title} — Alan Kelly`} description={project.description}>
+  <article class="case-study">
+    <a class="back" href={`${import.meta.env.BASE_URL}/#work`}>← Back to work</a>
+    <p class="eyebrow">{project.eyebrow}</p><h1>{project.title}</h1><p class="lede">{project.intro}</p>
+    <div class={`case-art ${project.accent}`}><span>{project.number}</span><i></i></div>
+    {project.sections.map((section) => <section><p class="eyebrow">Case study section</p><h2>{section.heading}</h2><p>{section.body}</p></section>)}
+    <a class="button" href={`${import.meta.env.BASE_URL}/#contact`}>Start a conversation <span>↗</span></a>
+  </article>
+</BaseLayout>
+<style>
+  .case-study { max-width:900px; padding:5rem 0 8rem; }.back { color:var(--muted); font-size:.8rem; text-decoration:none; }.eyebrow { color:var(--accent); font-size:.75rem; font-weight:700; letter-spacing:.08em; text-transform:uppercase; margin-top:4rem; }.case-study h1 { font-size:clamp(3.4rem,8vw,7rem); line-height:1.03; letter-spacing:-.06em; margin:.5rem 0 1.4rem; }.lede { max-width:600px; color:var(--muted); font-size:1.15rem; }.case-art { height:420px; border-radius:1.2rem; margin:4rem 0 6rem; padding:1.5rem; position:relative; overflow:hidden; }.case-art span { font-weight:700; font-size:1.5rem; }.case-art i { position:absolute; width:420px; height:420px; right:10%; bottom:-35%; border-radius:50%; background:rgba(255,255,255,.42); }.coral { background:#f2a18b; }.blue { background:#92b8d7; }.green { background:#96c5ae; }.case-study section { max-width:650px; border-top:1px solid var(--line); padding:2.5rem 0; }.case-study section h2 { font-size:2.3rem; margin:.5rem 0 1rem; }.case-study section p:last-child { color:var(--muted); }.button { display:inline-flex; gap:1rem; align-items:center; margin-top:2rem; background:var(--text); color:var(--bg); border-radius:999px; padding:.8rem 1.1rem; font:600 .8rem 'Montserrat'; text-decoration:none; }.button span { color:var(--accent); } @media(max-width:650px) { .case-art { height:260px; margin:3rem 0 4rem; } }
+</style>
