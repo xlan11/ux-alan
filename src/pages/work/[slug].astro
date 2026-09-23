@@ -1,15 +1,16 @@
 ---
 import BaseLayout from '../../layouts/BaseLayout.astro';
-import { projects } from '../../data/projects.js';
-export function getStaticPaths() { return projects.map((project) => ({ params: { slug: project.slug }, props: { project } })); }
+import { getCollection } from 'astro:content';
+export async function getStaticPaths() { const projects = await getCollection('projects'); return projects.map((project) => ({ params: { slug: project.id }, props: { project } })); }
 const { project } = Astro.props;
+const data = project.data;
 ---
-<BaseLayout title={`${project.title} — Alan Kelly`} description={project.description}>
+<BaseLayout title={`${data.title} — Alan Kelly`} description={data.description}>
   <article class="case-study">
     <a class="back" href={`${import.meta.env.BASE_URL}/#work`}>← Back to work</a>
-    <p class="eyebrow">{project.eyebrow}</p><h1>{project.title}</h1><p class="lede">{project.intro}</p>
-    <div class={`case-art ${project.accent}`}><span>{project.number}</span><i></i></div>
-    {project.sections.map((section) => <section><p class="eyebrow">Case study section</p><h2>{section.heading}</h2><p>{section.body}</p></section>)}
+    <p class="eyebrow">{data.eyebrow}</p><h1>{data.title}</h1><p class="lede">{data.intro}</p>
+    <div class={`case-art ${data.accent}`}><span>{data.number}</span><i></i></div>
+    {data.sections.map((section) => <section><p class="eyebrow">Case study section</p><h2>{section.heading}</h2><p>{section.body}</p></section>)}
     <a class="button" href={`${import.meta.env.BASE_URL}/#contact`}>Start a conversation <span>↗</span></a>
   </article>
 </BaseLayout>

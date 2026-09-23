@@ -14,7 +14,16 @@ collections:
     slug: '{{slug}}'
     fields:
       - { label: Title, name: title, widget: string }
+      - { label: Eyebrow, name: eyebrow, widget: string, default: Case study }
       - { label: Summary, name: summary, widget: text }
-      - { label: Cover image, name: coverImage, widget: image, required: false }
-      - { label: Cover image alt text, name: coverImageAlt, widget: string, required: false }
-      - { label: Project details, name: body, widget: markdown }
+      - { label: Description, name: description, widget: text }
+      - { label: Number, name: number, widget: string }
+      - { label: Accent, name: accent, widget: select, options: [coral, blue, green] }
+      - { label: Tags, name: tags, widget: list }
+      - { label: Introduction, name: intro, widget: text }
+      - label: Sections
+        name: sections
+        widget: list
+        fields:
+          - { label: Heading, name: heading, widget: string }
+          - { label: Body, name: body, widget: text }
